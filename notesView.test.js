@@ -36,4 +36,18 @@ describe('NotesView', () => {
         expect(document.querySelectorAll('div.note').length).toEqual(1);
         expect(document.querySelectorAll('div.note')[0].textContent).toEqual('New note');
     });
+
+    it('clear all notes before displaying', () => {
+        document.body.innerHTML = fs.readFileSync('./index.html');
+
+        const model = new NotesModel();
+        const view = new NotesView(model);
+        model.addNote('one');
+        model.addNote('two');
+
+        view.displayNotes();
+        view.displayNotes();
+
+        expect(document.querySelectorAll('div.note').length).toEqual(2);
+    });
 });
