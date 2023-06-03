@@ -18,4 +18,25 @@ describe('notesClient class', () => {
             done();
         });
     });
-})
+
+    it('calls #createNote, sends post request to api', (done) => {
+        const client = new NotesClient();
+
+        fetchMock.mockResponse();
+
+        const url = 'http://localhost:3000/notes';
+        const params = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify( {content: "note 1"})
+        };
+
+        client.createNote('note 1')
+            .then(() => {
+                expect(fetchMock).toHaveBeenCalledWith(url, params);
+                done();
+            });
+    });
+});
